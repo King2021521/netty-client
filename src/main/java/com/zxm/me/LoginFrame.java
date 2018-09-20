@@ -18,7 +18,7 @@ public class LoginFrame {
 
     private static NettyClientBootstrap bootstrap;
 
-    public LoginFrame(){
+    public LoginFrame() {
         loginFrame = new Frame("netty客户端登录（Copyright© Nicholas.Tony）");
         loginFrame.setResizable(false);
         loginFrame.setLocation(700, 500);
@@ -35,14 +35,14 @@ public class LoginFrame {
 
         controlPanel = new Panel();
         controlPanel.setBackground(Color.PINK);
-        controlPanel.setLayout(new GridLayout(2,1));
+        controlPanel.setLayout(new GridLayout(2, 1));
 
         controlPanel.add(textField);
         loginFrame.add(controlPanel);
         loginFrame.setVisible(true);
     }
 
-    public void login(){
+    public void login() {
         Button createButton = new Button("登录");
         createButton.setBackground(new Color(255, 110, 111));
 
@@ -50,12 +50,12 @@ public class LoginFrame {
             public void actionPerformed(ActionEvent e) {
                 ChatFrame chatFrame = new ChatFrame();
                 try {
-                    bootstrap = new NettyClientBootstrap(8081, "10.13.1.210",chatFrame);
+                    bootstrap = new NettyClientBootstrap(8081, "10.13.1.210", chatFrame);
                 } catch (Exception ex) {
                     throw new RuntimeException("init netty client fail !!!");
                 }
                 String userName = textField.getText();
-                bootstrap.getSocketChannel().writeAndFlush("$_"+userName);
+                bootstrap.getSocketChannel().writeAndFlush(MessageHandler.encode(MessageHandler.LOGIN, userName));
                 chatFrame.showFrame();
                 chatFrame.setBootstrap(bootstrap);
                 loginFrame.setVisible(false);

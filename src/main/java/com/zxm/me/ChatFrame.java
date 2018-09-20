@@ -35,7 +35,7 @@ public class ChatFrame {
                 System.exit(0);
             }
         });
-        textArea = new TextArea(40,30);
+        textArea = new TextArea(40, 30);
         textArea.setBackground(new Color(255, 250, 205));
 
         textField = new TextField(42);
@@ -51,36 +51,27 @@ public class ChatFrame {
         mainFrame.setVisible(false);
     }
 
-    public void showFrame(){
+    public void showFrame() {
         this.mainFrame.setVisible(true);
     }
 
-    public void setBootstrap(NettyClientBootstrap bootstrap){
+    public void setBootstrap(NettyClientBootstrap bootstrap) {
         this.bootstrap = bootstrap;
     }
 
     public void print(String content) {
-        this.textArea.append(content+"\r\n");
+        this.textArea.append(content + "\r\n");
         mainFrame.setVisible(true);
     }
 
-    /*public void init() {
-        try {
-            bootstrap = new NettyClientBootstrap(8081, "10.13.1.210", this);
-        } catch (Exception e) {
-            throw new RuntimeException("init netty client fail !!!");
-        }
-        send();
-    }*/
-
-    public void send(){
+    public void send() {
         Button createButton = new Button("发送");
         createButton.setBackground(new Color(255, 110, 111));
 
         createButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 String message = textField.getText();
-                bootstrap.getSocketChannel().writeAndFlush(message);
+                bootstrap.getSocketChannel().writeAndFlush(MessageHandler.encode(MessageHandler.MESSAGE, message));
                 textField.setText("");
             }
         });
